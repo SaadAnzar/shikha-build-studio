@@ -10,6 +10,7 @@ export const authOptions: NextAuthOptions = {
         const creatorsEmailArray = [
           "faizanabbasi00123@gmail.com",
           "pratik@trypolymath.ai",
+          "tanmaydhote310@gmail.com",
         ]
 
         if (creatorsEmailArray.includes(profile.email)) {
