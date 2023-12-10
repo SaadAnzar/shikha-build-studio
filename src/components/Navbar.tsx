@@ -2,30 +2,27 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  Github,
-  LayoutDashboard,
-  LifeBuoy,
-  LogOut,
-  Target,
-  User,
-} from "lucide-react"
+import { LogOut, User } from "lucide-react"
+import { signOut, useSession } from "next-auth/react"
 
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 const Navbar = () => {
   const pathname = usePathname()
+
+  const { data: session } = useSession()
+
+  if (pathname.startsWith("/student")) {
+    return null // Return null when the pathname starts with '/student'
+  }
 
   return (
     <header className="bg-background sticky top-0 z-40 w-full border-b">
@@ -33,19 +30,21 @@ const Navbar = () => {
         <div className="flex gap-6">
           {pathname === "/" ? (
             <div className="flex items-center space-x-2">
-              <Target className="h-6 w-6" />
-              <span className="inline-block font-bold">Anzar</span>
+              <span className="inline-block font-bold">
+                Shikha Build Studio
+              </span>
             </div>
           ) : (
             <Link
               href="/"
               className="flex items-center space-x-2 hover:opacity-80"
             >
-              <Target className="h-6 w-6" />
-              <span className="inline-block font-bold">Anzar</span>
+              <span className="inline-block font-bold">
+                Shikha Build Studio
+              </span>
             </Link>
           )}
-          <nav className="flex gap-6">
+          {/* <nav className="flex gap-6">
             <Link
               href="/home"
               className={cn(
@@ -66,29 +65,31 @@ const Navbar = () => {
             >
               About
             </Link>
-          </nav>
+          </nav> */}
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="ghost">
-                  <User className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="mr-2 w-56">
-                <DropdownMenuLabel className="truncate">
-                  anzarhps@gmail.com
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+            {session && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="icon" variant="ghost">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="mr-2 w-56">
+                  <DropdownMenuLabel className="truncate">
+                    {session.user?.email}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
 
-                <DropdownMenuLabel>
-                  <ThemeToggle />
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                  <DropdownMenuLabel>
+                    {/* <ThemeToggle /> */}
+                    {session.user?.role?.toUpperCase()}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
 
-                <DropdownMenuGroup>
+                  {/* <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard">
                       <LayoutDashboard className="mr-2 h-4 w-4" />
@@ -112,16 +113,17 @@ const Navbar = () => {
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator /> */}
 
-                <DropdownMenuItem asChild>
-                  <Link href="/" className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuItem asChild>
+                    <div onClick={() => signOut()} className="cursor-pointer">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </nav>
         </div>
       </div>

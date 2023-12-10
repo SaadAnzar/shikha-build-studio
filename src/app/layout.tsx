@@ -1,9 +1,11 @@
 import "./globals.css"
 import { Metadata, Viewport } from "next"
+import { Toaster } from "sonner"
 
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import Navbar from "@/components/Navbar"
+import Navbar from "@/components/navbar"
+import { SessionProvider } from "@/components/session-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
@@ -41,12 +43,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SessionProvider>
+            {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem> */}
             <div className="relative flex min-h-screen flex-col">
               <Navbar />
               <div className="flex-1">{children}</div>
+              <Toaster richColors />
             </div>
-          </ThemeProvider>
+            {/* </ThemeProvider> */}
+          </SessionProvider>
         </body>
       </html>
     </>
