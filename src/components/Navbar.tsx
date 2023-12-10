@@ -21,7 +21,7 @@ const Navbar = () => {
   const { data: session } = useSession()
 
   if (pathname.startsWith("/student")) {
-    return null // Return null when the pathname starts with '/student'
+    return null
   }
 
   return (

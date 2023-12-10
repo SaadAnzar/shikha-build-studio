@@ -6,7 +6,6 @@ import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import Navbar from "@/components/navbar"
 import { SessionProvider } from "@/components/session-provider"
-import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
   title: {
@@ -44,13 +43,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <SessionProvider>
-            {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem> */}
             <div className="relative flex min-h-screen flex-col">
               <Navbar />
               <div className="flex-1">{children}</div>
               <Toaster richColors />
             </div>
-            {/* </ThemeProvider> */}
           </SessionProvider>
         </body>
       </html>
