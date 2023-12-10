@@ -4,8 +4,9 @@ import { Toaster } from "sonner"
 
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import Navbar from "@/components/navbar"
 import { SessionProvider } from "@/components/session-provider"
+
+import Navbar from "../components/nav-bar"
 
 export const metadata: Metadata = {
   title: {
